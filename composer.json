@@ -1,0 +1,30 @@
+{
+    "name": "mtxserv/vmware-api",
+    "description": "PHP library for interacting with the VMware Rest API.",
+    "keywords": [
+        "vsphere",
+        "sdk",
+        "automation",
+        "api"
+    ],
+    "homepage": "https://github.com/mTxServ/vmware-api",
+    "authors": [
+        {
+            "name": "mTxServ",
+            "email": "contact@mtxserv.com",
+            "homepage": "https://mtxserv.com"
+        }
+    ],
+    "type": "library",
+    "require": {
+        "php": "^7.0|^8.0|^8.1",
+        "guzzlehttp/guzzle": "^7.0"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "VMware\\": "src/"
+        }
+    },
+    "minimum-stability": "dev"
+}
