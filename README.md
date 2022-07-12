@@ -34,7 +34,7 @@ $client = new VMwareClient([
 
 try {
     // Get VM list
-    $response = $client->get('/rest/vcenter/vm');
+    $response = $client->get('/rest/vcenter/vm'); // See: https://developer.vmware.com/apis/vsphere-automation/latest/vcenter/api/vcenter/vm/get/
     $json = json_decode($response->getBody()->getContents(), \JSON_THROW_ON_ERROR);
     var_dump($json);
 } catch (GuzzleException $e) {
