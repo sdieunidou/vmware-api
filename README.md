@@ -1,9 +1,9 @@
 VMware API
 ==========
 
-[![Latest Stable Version](https://poser.pugx.org/mtxserv/vsphere-api/v/stable.png)](https://packagist.org/packages/mtxserv/vmware-api)
+[![Latest Stable Version](https://poser.pugx.org/mtxserv/vmware-api/v/stable.png)](https://packagist.org/packages/mtxserv/vmware-api)
 
-vSphere Api is a modern PHP library based on Guzzle for [VMware Rest API](https://developer.vmware.com/apis/vsphere-automation/latest/vcenter/).
+vSphere Api is a modern PHP library based on Guzzle for [VMware Rest API](https://developer.vmware.com/apis/vsphere-automation/latest/).
 
 ## Dependencies
 
