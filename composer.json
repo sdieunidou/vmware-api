@@ -17,8 +17,12 @@
     ],
     "type": "library",
     "require": {
-        "php": "^7.0|^8.0|^8.1",
-        "guzzlehttp/guzzle": "^7.0"
+        "php": "^8.3",
+        "guzzlehttp/guzzle": "^7.8"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^11.0",
+        "friendsofphp/php-cs-fixer": "^3.0"
     },
     "license": "MIT",
     "autoload": {
@@ -26,5 +30,11 @@
             "VMware\\": "src/"
         }
     },
-    "minimum-stability": "dev"
+    "autoload-dev": {
+        "psr-4": {
+            "VMware\\Tests\\": "tests/"
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
 }

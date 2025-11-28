@@ -3,27 +3,25 @@
 namespace VMware\Middleware;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\GuzzleException;
-use GuzzleHttp\Psr7\Request;
+use GuzzleHttp\Exception\TransferException;
+use Psr\Http\Message\RequestInterface;
 
 class AuthMiddleware
 {
-    private $sessionId;
+    private ?string $sessionId = null;
 
-    private $client;
-
-    public function __construct(Client $client)
-    {
-        $this->client = $client;
+    public function __construct(
+        private readonly Client $client
+    ) {
     }
-    
-    public function __invoke(callable $handler)
-    {
-        if (empty($this->sessionId)) {
-            $this->generateSessionId();
-        }
 
-        return function (Request $request, array $options) use ($handler) {
+    public function __invoke(callable $handler): callable
+    {
+        return function (RequestInterface $request, array $options) use ($handler) {
+            if (empty($this->sessionId)) {
+                $this->generateSessionId();
+            }
+
             return $handler(
                 $request->withHeader('vmware-api-session-id', $this->sessionId),
                 $options
@@ -31,12 +29,12 @@ class AuthMiddleware
         };
     }
 
-    private function generateSessionId()
+    private function generateSessionId(): void
     {
         $response = $this->client->post('/rest/com/vmware/cis/session', [
             'headers' => [
                 'Authorization' => sprintf(
-                    'Basic %s', 
+                    'Basic %s',
                     base64_encode(
                         sprintf('%s:%s', $this->client->getConfig('vmware_user'), $this->client->getConfig('vmware_password'))
                     )
@@ -46,9 +44,9 @@ class AuthMiddleware
             ],
         ]);
 
-        $json = json_decode($response->getBody()->getContents(), \JSON_THROW_ON_ERROR);
+        $json = json_decode($response->getBody()->getContents(), true, 512, \JSON_THROW_ON_ERROR);
         if (empty($json['value'])) {
-            throw new GuzzleException('SessionId returned by the api is missing');
+            throw new TransferException('SessionId returned by the api is missing');
         }
 
         $this->sessionId = $json['value'];

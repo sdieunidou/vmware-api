@@ -29,11 +29,12 @@ class VMwareClient extends Client
         if (empty($config['handler'])) {
             $config['handler'] = HandlerStack::create();
         }
-        
+
         $config['handler']->push(new AuthMiddleware(new Client([
-            'base_uri' => $config['base_uri'],
+            'base_uri' => $config['base_uri'] ?? null,
             'vmware_user' => $config['vmware_user'],
             'vmware_password' => $config['vmware_password'],
+            'verify' => $config['verify'] ?? true,
         ])));
 
         parent::__construct($config);

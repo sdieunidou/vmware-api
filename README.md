@@ -1,43 +1,50 @@
-VMware API
-==========
+# VMware API Client
 
-[![Latest Stable Version](https://poser.pugx.org/mtxserv/vmware-api/v/stable.png)](https://packagist.org/packages/mtxserv/vmware-api)
+A simple PHP Guzzle client for interacting with the VMware REST API.
 
-vSphere Api is a modern PHP library based on Guzzle for [VMware Rest API](https://developer.vmware.com/apis/vsphere-automation/latest/).
+## Requirements
 
-## Dependencies
-
-* PHP 7 / 8
-* [Guzzle](http://www.guzzlephp.org): ^7.0
+- PHP 8.3 or higher
+- Guzzle 7.8 or higher
 
 ## Installation
 
-Installation of VMware Rest Api is only officially supported using Composer:
+Install the package via Composer:
 
-```sh
+```bash
 composer require mtxserv/vmware-api
 ```
 
-## Example
+## Usage
 
 ```php
-<?php
-
 use VMware\VMwareClient;
-use GuzzleHttp\Exception\GuzzleException;
 
 $client = new VMwareClient([
-    'base_uri' => 'https://my-pcc.ovh.com',
-    'vmware_user' => 'my_user',
-    'vmware_password' => 'my_password',
+    'base_uri' => 'https://vcenter.example.com',
+    'vmware_user' => 'administrator@vsphere.local',
+    'vmware_password' => 'your_password',
+    'verify' => false, // Set to true for production if you have valid certificates
 ]);
 
+// Example: List VMs
 try {
-    // Get VM list
-    $response = $client->get('/rest/vcenter/vm'); // See: https://developer.vmware.com/apis/vsphere-automation/latest/vcenter/api/vcenter/vm/get/
-    $json = json_decode($response->getBody()->getContents(), \JSON_THROW_ON_ERROR);
-    var_dump($json);
-} catch (GuzzleException $e) {
-    var_dump($e->getMessage());
+    $response = $client->get('/rest/vcenter/vm');
+    $vms = json_decode($response->getBody(), true);
+    print_r($vms);
+} catch (\Exception $e) {
+    echo 'Error: ' . $e->getMessage();
 }
 ```
+
+## Testing
+
+Run the test suite:
+
+```bash
+vendor/bin/phpunit
+```
+
+## License
+
+This project is licensed under the MIT License.
